@@ -7,9 +7,7 @@ creeEn(macarena, magoCapria).
 creeEn(macarena, campanita).
 
 quiereSer(gabriel, suenioTipo(futbolista(arsenal))).
-quiereSer(gabriel, suenioTipo(ganador(NumerosLoteria))):-
-    member(Numero, NumerosLoteria),
-    between(5, 9, Numero).
+quiereSer(gabriel, suenioTipo(ganador([5, 9]))).
 
 quiereSer(juan, suenioTipo(cantante(100000))).
 

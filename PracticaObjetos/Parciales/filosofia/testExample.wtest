@@ -1,0 +1,5 @@
+import src.filosofo.*
+/*
+describe "filosofos"{
+    const diogenes  = new Filosofo(nombre = "diogenes", edad = 30,actividad = ["tomar vino blanco"], honorificos =["el cinico", ""])
+}*/

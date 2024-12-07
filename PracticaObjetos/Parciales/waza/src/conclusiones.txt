@@ -1,0 +1,18 @@
+*   Ante una accion en donde se debe VALIDAR una condicion, hacer en un metodo aparte lo que pasa si no lo cumple, lanzar error
+y en el metod que realiza la accion llamarlo y continuar con el caso feliz
+    Ejemplo:
+
+    method validarRecarga(litros) = if(!self.puedePagar(combustible.precio(litros))) throw new DomainException(message = "NO HAY PLA TA")
+
+    method recargarCombustible(litros){
+        self.validarRecarga(litros)
+        dineroDeCuenta -= combustible.precio(self.litrosACargar(litros))
+        vehiculo.cargarse(self.litrosACargar(litros))
+    }
+
+*   Usá la sintaxis method unMetodo() = unValor sólo si es un método que devuelve, no para métodos que tienen efecto.
+    ContraEjemplo:
+    method pagarMultas() = usuarios.forEach({ usuario => usuario.pagarLasMultas() })
+
+    Lo ideal sería:
+    method pagarMultas() { usuarios.forEach( { usuario => usuario.pagarLasMultas() } ) }
