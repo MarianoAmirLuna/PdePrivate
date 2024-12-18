@@ -32,6 +32,7 @@ tonificar n unGimnasta = unGimnasta{ tonificacion = tonificacion unGimnasta + n}
 quemarCalorias :: Int -> Gimnasta -> Gimnasta
 quemarCalorias caloriasQuemadas unGymRat = unGymRat{ peso = peso unGymRat - kilosPerdidos caloriasQuemadas}
 
+kilosPerdidos :: Int -> Int
 kilosPerdidos calorias = div calorias 500
 
 {-
@@ -116,7 +117,7 @@ rutinaConMasEjercicios :: [Rutina] -> Int
 rutinaConMasEjercicios = maximum . map (length . ejercicios)
 
 rutinaTonificadora ::Gimnasta -> [Rutina] -> [String]
-rutinaTonificadora unGymRat = map nombre . filter (\rutina -> (tonificacion unGymRat /=) . tonificacion . realizarRutina $ unGymRat)
+rutinaTonificadora unGymRat = map nombre . filter ((tonificacion unGymRat /=) . tonificacion . (realizarRutina unGymRat))
 
 esPeligrosa :: Gimnasta -> Rutina -> Bool
 esPeligrosa unGimnasta = (div (peso unGimnasta) 2 >=) . peso . realizarRutina unGimnasta
