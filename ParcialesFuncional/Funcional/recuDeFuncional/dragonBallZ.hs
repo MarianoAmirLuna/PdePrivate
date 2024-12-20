@@ -6,6 +6,24 @@ data Guerrero = Guerrero{
     fatiga       :: Float ,
     personalidad :: String
 }  deriving (Eq, Show)
+{-
+CORRECCIONES DE Luu
+data Guerrero = Guerrero{
+    nombre       :: String,
+    ki           :: Float ,
+    fatiga       :: Float ,
+    raza         :: Raza,
+    personalidad :: Personalidad
+}  deriving (Eq, Show)
+
+data Raza = Raza{
+    laRaza :: String
+} deriving (Eq, Show)
+
+data Personalidad = Personalidad{
+    laPersonalidad :: String
+} deriving (Eq, Show)
+-}
 
 modificarFatiga :: (Float -> Float) -> Guerrero -> Guerrero
 modificarFatiga funcion unGuerrero = unGuerrero{fatiga = funcion . fatiga $ unGuerrero}
@@ -31,6 +49,12 @@ pressBanca = efectoEjercicio (90+) (100+)
 
 flexionesDeBrazo :: Ejercicio
 flexionesDeBrazo = modificarFatiga(50+)
+{-
+CORRECCIONES DE Luu
+
+se podria hacer lo siguiente en flexionesDeBrazo efectoEjercicio (id) (100+) debido a que "los ejercicios tienen 2 efectos: el primero es que producen fatiga en quien lo realiza 
+y el segundo es que producen GAINS..."
+-}
 
 saltosAlCajon :: Float -> Ejercicio
 saltosAlCajon centimetros =  efectoEjercicio (+centimetros/10) (+centimetros/5)
@@ -51,6 +75,12 @@ ejercicioCansado  :: Ejercicio -> Guerrero -> Guerrero
 ejercicioCansado  unEjercicio unGuerrero = efectoEjercicio (+2*diferenciaDeAtributo ki unGuerrero unEjercicio) (+4*diferenciaDeAtributo fatiga unGuerrero unEjercicio) unGuerrero
 ejercicioExhausto :: Ejercicio -> Guerrero -> Guerrero
 ejercicioExhausto unEjercicio unGuerrero = efectoEjercicio ((*0.98) . flip (-) (diferenciaDeAtributo ki unGuerrero unEjercicio)) (1*) unGuerrero
+
+{-
+CORRECCIONES DE Luu
+
+Se puede abstraer lo hecho entre parentesis en ejercicioCansado y ejercicioExhausto
+-}
 
 estaCansado  :: Guerrero -> Bool 
 estaCansado  unGuerrero = estaFatigado 0.44 unGuerrero
@@ -78,6 +108,29 @@ armarRutina unGuerrero ejercicios
     | laPersonalidadEs "Sacada"   unGuerrero = intercalarDescanso 0 ejercicios
     | laPersonalidadEs "Perezosa" unGuerrero = intercalarDescanso 5 ejercicios
     | otherwise                              = []
+
+{-
+CORRECCIONES DE Luu
+
+    Si una rutina es una lista de ejercicios (siendo ejercicio Guerrero -> Guerrero),
+es decir [Guerrero -> Guerrero] y el descanso (por cómo lo tenes modelado) también
+es de Guerrero -> Guerrero entonces no hay problema de tipos por ende no es nece-
+saria la tupla.
+    Lo que vos necesitas es intercalar entre los ejercicios el descanso de 5min
+
+armarRutina :: Guerrero -> [Ejercicio] -> Rutina
+armarRutina unGuerrero ejercicios
+    | laPersonalidadEs "Sacada"   unGuerrero = ejercicios -- Acá no hace falta el descanso, por ende podes devolver lo mismo
+    | laPersonalidadEs "Perezosa" unGuerrero =  map (descanso 5 .)  ejercicios
+    | otherwise                              = []
+
+Otra Version:
+armarRutina :: Guerrero -> [Ejercicio] -> [Ejercicio]
+armarRutina (Guerrero _ _ _ _ Sacado)   rutina = ...
+armarRutina (Guerrero _ _ _ _ Perezoso) rutina = ...
+armarRutina (Guerrero _ _ _ _ Tramposo) _         = []
+-}
+
 
 laPersonalidadEs :: String -> Guerrero -> Bool
 laPersonalidadEs suPersonalidad unGuerrero = suPersonalidad == personalidad unGuerrero
@@ -108,7 +161,7 @@ ejercicio :: (Ejercicio, Descanso) -> Ejercicio
 ejercicio = fst
 
 -- Punto 7
---Funciones dadas en el parcial
+--Funciones dadas en el parcial, Hacer el import es fundamental para que las funciones anden.
 -- Main*> :t takeWhile
 -- takeWhile :: (a -> Bool) -> [a] -> [a]
 -- Main*> takeWhile even [2,4,6,5,6,7,8,9]
