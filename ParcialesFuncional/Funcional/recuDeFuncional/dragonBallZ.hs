@@ -16,6 +16,26 @@ data Guerrero = Guerrero{
     personalidad :: Personalidad
 }  deriving (Eq, Show)
 
+-------------------------------------------
+Opcion 1
+-------------------------------------------
+
+type Personalidad = String
+type Raza = String
+
+saiyajin :: Raza
+saiyajin = "saiyajin"
+
+sacada :: Personalidad
+sacada ="Sacada"
+
+perezosa :: Personalidad
+perezosa ="Perezosa"
+
+-------------------------------------------
+Opcion 2
+-------------------------------------------
+
 data Raza = Raza{
     laRaza :: String
 } deriving (Eq, Show)

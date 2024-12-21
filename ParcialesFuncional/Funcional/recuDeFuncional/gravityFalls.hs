@@ -75,3 +75,5 @@ zipWithIf funcion condicion (x:xs) (y:ys)
     | not . condicion $ y = (y:) . zipWithIf funcion condicion (x:xs) $ (ys)
     | otherwise           = (funcion x y :) . zipWithIf funcion condicion (xs) $ (ys)
 
+--Punto 2
+--Falopeadas
